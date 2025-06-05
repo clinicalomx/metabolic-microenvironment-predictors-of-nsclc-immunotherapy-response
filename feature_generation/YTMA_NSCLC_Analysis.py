@@ -1,7 +1,6 @@
 from PlotRipleyFunctions import *
 from ReadClinicalData import *
 from ComputeNeighbourhoodCounts import *
-#from PerlinProcessSim import *
 from NolanCNsAndSubclustering import *
 from PatientAnnDataEP import *
 from Spatial2DDensityCorrelation import *
@@ -18,11 +17,7 @@ def analyze(patient_list):
     CNGroupLabels = list(range(k))
     patientcolumnname = 'patientid'
 
-    #r'/mnt/d/YTMA_NSCLS/nsclc_adata_features.h5ad'
-    #r'D:\YTMA_NSCLS\nsclc_adata_features.h5ad'
-    #hnscc_adata_features
-    #clinicalData = ReadClinicalData(file_location=r'C:\Users\AaronKilgallon\NSCLC_HNCC_Analysis\Aaron_Analysis\hnscc_adata_features.h5ad', patients='patient_id')
-    clinicalData = ReadClinicalData(file_location=r'C:\Users\AaronKilgallon\YTMA_ANALYSIS_CHAIN\AnnDataFiles\2-output_nsclc_ytma_features_preandpost.h5ad', patients=patientcolumnname)
+    clinicalData = ReadClinicalData(file_location=r'..\AnnDataFiles\2-output_nsclc_ytma_features_preandpost.h5ad', patients=patientcolumnname)
 
     clinicalData.refactorMetaAndImmune()
 
@@ -38,14 +33,6 @@ def analyze(patient_list):
 
     clinicalOutcomes = clinicalData.returnPatientsAndOutcomes(outcomeLabel='OR', timeLabel='os.T', eventLabel='os.E',
                                                               groupby=[['PD'], ['CR', 'PR', 'NE', 'SD']], labels=['NoResponse', 'Response'])
-
-    # metricsDict: A user-provided driver of the metrics to compute
-    # {Label: [MetricType(KRipleyCross, GCross, etc.), Reference Phenotype (cell_types, immune_func, etc.),
-    #          Grouping Label (nolan_cellular_neighborhood_labels_Km{k}_Knn{n}, etc.),
-    #          Neighbour Label (subclusterDelauneyNeighbors or CNDelauneyNeighbors or None)
-    #          Edges Label (nolan_cellular_neighborhood_edges_Km{k}_Knn{n}, etc.)
-    #          Dimensionality of metric (GxGxCxCxR, GxCxC, GxCxR, etc., for group G, for phenotypes C, and radii R)
-    #         ]}
 
 
     #TODO: StoredTYpes are calculated internally
@@ -572,85 +559,6 @@ def analyze(patient_list):
     }
 
 
-    #'KRipleyCross_CNsxCNsxCellsxCells_NoNeighs_EdgeCells': {
-    #    'metricType': 'KRipleyCross',
-    #    'groupBys': [f"nolan_cellular_neighborhood_labels_Km{k}_Knn{n}",
-    #                 f"nolan_cellular_neighborhood_labels_Km{k}_Knn{n}", 'cell_types', 'cell_types'],
-    #    'radii': radii,
-    #    'neighbors': None,
-    #    'edges': f"nolan_cellular_neighborhood_edges_Km{k}_Knn{n}",
-    #    'storedType': 'GxGxCxCxR'},
-    ##'MutualInformation_CellsxCells_None_None_AllCells': ['JSDScores', 'cell_types', 'cell_types', None, None, None, None, 'GxCxC']
-    ##'GraphConductance_CellsxCells_CNs_ReqNeigh_EdgeCells': ["Conductance", 'cell_types', 'cell_types', None,
-    ##       f"nolan_cellular_neighborhood_labels_Km{k}_Knn{n}", 'CNDelauneyNeighbors',
-    ##       f"nolan_cellular_neighborhood_edges_Km{k}_Knn{n}",  'GxGxCxC']
-
-    #
-    # '''
-    # 'GCross_CNsxCNsxCellsxCells_NoNeighs_EdgeCells': {
-    #    'metricType': 'GCross',
-    #    'groupBys': ["nb_celltypes_20_3",
-    #                 "nb_celltypes_20_3", 'celltypes', 'celltypes'],
-    #    'radii': radii,
-    #    'neighbors': None,
-    #    'edges': f"nb_celltypes_20_3_edges",
-    #    'storedType': 'GxGxCxCxR'},
-    # 'GCross_CNsxCNsxImmunefuncxImmunefunc_NoNeighs_EdgeCells': {
-    #    'metricType': 'GCross',
-    #    'groupBys': ["nb_celltypes_20_3",
-    #                 "nb_celltypes_20_3", "Immune_func", "Immune_func"],
-    #    'radii': radii,
-    #    'neighbors': None,
-    #    'edges': f"nb_celltypes_20_3_edges",
-    #   'storedType': 'GxGxCxCxR'},
-    # 'GCross_CNsxCNsxImmunemetaxImmunemeta_NoNeighs_EdgeCells': {
-    #    'metricType': 'GCross',
-    #    'groupBys': ["nb_celltypes_20_3",
-    #                 "nb_celltypes_20_3", "Immune_meta", "Immune_meta"],
-    #    'radii': radii,
-    #    'neighbors': None,
-    #    'edges': "nb_celltypes_20_3_edges",
-    #    'storedType': 'GxGxCxCxR'},
-    # 'GCross_CNsxCNsxfuncmetapathxfuncmetapath_NoNeighs_EdgeCells': {
-    #    'metricType': 'GCross',
-    #    'groupBys': ["nb_celltypes_20_3",
-    #                 "nb_celltypes_20_3", "cell_types_immune_metapath", "cell_types_immune_metapath"],
-    #    'radii': radii,
-    #    'neighbors': None,
-    #    'edges': "nb_celltypes_20_3_edges",
-    #    'storedType': 'GxGxCxCxR'},
-    # '''
-
-    # '''
-    # 'InfiltrationScore_CNsxImmunefuncxImmunefunc_NoNeighs_AllCells': {
-    #        'metricType': 'InfiltrationScores',
-    #        'groupBys': ["nb_celltypes_20_3", 'Immune_func', 'Immune_func'],
-    #        'radii': None,
-    #        'neighbors': None,#'CNDelauneyNeighbors',
-    #        'edges': None,
-    #        'storedType': 'GxCxC'},
-    # 'InfiltrationScore_CNsxCellsxCells_NoNeighs_AllCells': {
-    #        'metricType': 'InfiltrationScores',
-    #        'groupBys': ["nb_celltypes_20_3", 'celltypes', 'celltypes'],
-    #        'radii': None,
-    #        'neighbors': None,#'CNDelauneyNeighbors',
-    #        'edges': None,
-    #        'storedType': 'GxCxC'},
-    # 'InfiltrationScore_CNsxImmunemetaxImmunemeta_NoNeighs_AllCells': {
-    #    'metricType': 'InfiltrationScores',
-    #    'groupBys': [f"nb_celltypes_20_3", 'Immune_meta', 'Immune_meta'],
-    #    'radii': None,
-    #    'neighbors': None,  # 'CNDelauneyNeighbors',
-    #    'edges': None,
-    #    'storedType': 'GxCxC'},
-    # 'InfiltrationScore_CNsxfuncmetapathxfuncmetapath_NoNeighs_AllCells': {
-    #    'metricType': 'InfiltrationScores',
-    #    'groupBys': [f"nb_celltypes_20_3", 'cell_types_immune_metapath', 'cell_types_immune_metapath'],
-    #    'radii': None,
-    #    'neighbors': None,  # 'CNDelauneyNeighbors',
-    #    'edges': None,
-    #    'storedType': 'GxCxC'},
-    # '''
 
     CNs = [
         'nb_tumournontumour_20_3', 'nb_tumournontumour_50_2', 'MetaPathNeighbourhood'
@@ -686,12 +594,6 @@ def analyze(patient_list):
                                                    grouping="Tissue_Subsample_ID",
                                                    phenotype='celltypes',
                                                    baseFolder='YTMS_HNSCC_Images')
-    ##YTMS_NSCLC_Images
-    #clusterClinicalData.cluster(updateCNs=True)
-    ##clusterClinicalData.assignCellTypesToCNs(phenotype='cell_types', selection='mode')
-    ## clusterClinicalData.assignCellTypesToCNs(phenotype='cell_types', selection='top3')
-    #clusterClinicalData.baseCNVariableName = f"nolan_cellular_neighborhood_labels_Km{clusterClinicalData.k \
-    #    }_Knn{clusterClinicalData.n}"
 
     # Analysis loop
     nolan_barycentric_triangles=None
@@ -711,20 +613,6 @@ def analyze(patient_list):
 
         print("clinicalData.imageAData.celltypes: ", set(clinicalData.imageAData.obs.celltypes))
 
-        # Compute the subclusters of the CNs
-        '''clinicalData.imageAData, clusterClinicalData.baseSubclusterVariableName = \
-                clusterClinicalData.subclusterNolanCNs(clinicalData.imageAData)
-
-        # Compute the edges of the Nolan CNs
-        clinicalData.imageAData.obs[clusterClinicalData.baseCNVariableName.replace('labels', 'edges')] = \
-            computeConcaveHull(clinicalData.imageAData.obs.x, clinicalData.imageAData.obs.y,
-                clinicalData.imageAData.obs[clusterClinicalData.baseCNVariableName], concavity=2.0, length_threshold=0.5)
-
-        # Compute the edges of the Subclusters
-        clinicalData.imageAData.obs[clusterClinicalData.baseSubclusterVariableName.replace('index', 'edges')] = \
-            computeConcaveHull(clinicalData.imageAData.obs.x, clinicalData.imageAData.obs.y,
-                clinicalData.imageAData.obs[clusterClinicalData.baseCNVariableName], concavity=2.0, length_threshold=0.5)
-                '''
 
         clinicalData.imageAData.obs['nb_tumournontumour_20_3_edges'] = \
             computeConcaveHull(clinicalData.imageAData.obs.x, clinicalData.imageAData.obs.y,
@@ -739,34 +627,8 @@ def analyze(patient_list):
                                clinicalData.imageAData.obs['MetaPathNeighbourhood'], concavity=2.0,
                                length_threshold=0.5)
 
-
-        #print("Fraction of Edges: ", clinicalData.imageAData.obs[clusterClinicalData.baseCNVariableName.
-        #      replace('labels', 'edges')].mean())
-
-        ################################################################################################################
-        # Get all neighbours of CNs and subclusters
-        ################################################################################################################
-
-        #CNDelauneyNeighbors, uniqueCDDelauneyNeighbors, actualLabelsOfCNs = clusterClinicalData.getClusterNeighbours(
-        #    clinicalData.imageAData, clusterLabel=clusterClinicalData.baseCNVariableName,
-        #)
-
-        #subclusterDelauneyNeighbors, uniqueSubclusterDelauneyNeighbors, actualLabelsOfSubclusters = (
-        #    clusterClinicalData.getClusterNeighbours(clinicalData.imageAData,
-        #                                             clusterLabel=clusterClinicalData.baseSubclusterVariableName)
-        #)
-
-        ##clusterClinicalData.plot_clustering(tissue, clinicalData.imageAData)
-        #clusterClinicalData.plot_enrichment_scores(tissue, clinicalData.imageAData)
-
         for metricLabel, metric in metricsDict.items():
             print("metricLabel: ", metricLabel, "\tmetric: ", metric)
-
-            #if metric['neighbors'] == 'CNDelauneyNeighbors':
-            #    cdN = CNDelauneyNeighbors
-            #elif metric['neighbors'] == 'subclusterDelauneyNeighbors':
-            #    cdN = subclusterDelauneyNeighbors
-            #else:
             cdN = None
 
             # Compute JSD scores!
@@ -839,8 +701,3 @@ if __name__ == '__main__':
 
         for future in futures:
             batch_logs = future.get()  # wait for work to be done
-
-
-
-
-#analyze(['34688'])
