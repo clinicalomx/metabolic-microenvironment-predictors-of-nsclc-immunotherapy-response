@@ -5,7 +5,7 @@ univariate_analysis contains code for figures 1-3
 
 multivariate_analysis contains notebooks for figures 4-7
 
-feature_generation contains scripts called in multivairate_analysis notebooks, including neighbourhood and metabolic neighbourhood generation,and spatial feature generation 
+feature_generation contains scripts called in multivariate_analysis notebooks, including neighbourhood and metabolic neighbourhood generation,and spatial feature generation (YTMA_NSCLC_Analysis.py)
 
 Base conda environment setup:
   
