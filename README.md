@@ -9,11 +9,9 @@ feature_generation contains scripts called in multivairate_analysis notebooks, i
 
 Base conda environment setup:
   
-  conda create -n analysis python=3.10 matplotlib seaborn jupyterlab anndata scanpy
-  conda activate analysis
-  pip install squidpy
-  
-  pip install PyComplexHeatmap glasbey scikit-survival
-  
-  pip install git+https://github.com/gregbellan/Stabl.git@v1.0.1-lw
-  pip install scikit-learn==1.5.2
+- conda create -n analysis python=3.10 matplotlib seaborn jupyterlab anndata scanpy
+- conda activate analysis
+- pip install squidpy
+- pip install PyComplexHeatmap glasbey scikit-survival
+- pip install git+https://github.com/gregbellan/Stabl.git@v1.0.1-lw
+- pip install scikit-learn==1.5.2
