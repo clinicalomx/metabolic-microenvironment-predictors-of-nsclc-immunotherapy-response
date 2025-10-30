@@ -2,6 +2,7 @@
 Code for manuscript "Metabolic characterization of tumor-immune interactions by multiplexed immunofluorescence reveals spatial mechanisms of immunotherapy response in non-small cell lung carcinoma (NSCLC)"
 
 univariate_analysis contains code for figures 1-3
+evironment and dependencies for univariate_analysis contained in napari-prism package: https://github.com/clinicalomx/napari-prism
 
 multivariate_analysis contains notebooks for figures 4-7
 
